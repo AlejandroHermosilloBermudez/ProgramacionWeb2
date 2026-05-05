@@ -1,72 +1,81 @@
-// definir el arreglo 
-let tareas = [];
+// definir el arreglo de productos
+let productos = [];
 
-// funcion para mostrar el menu
+// función para mostrar el menú
 function mostrarMenu() {
     let opcion = prompt(`
 Opciones disponibles
-1.- Agregar una tarea
-2.- Ver todas las tareas
-3.- Marcar tarea como completada
+1.- Agregar producto
+2.- Ver todos los productos
+3.- Marcar producto como vendido
 4.- Salir
 
-Elige una opcion:`);
+Elige una opción:`);
 
     return parseInt(opcion);
 }
 
-// función para agregar tarea
-function agregarTarea() {
-    let nombre = prompt("Introduce el nombre de la tarea:");
+// función para agregar producto
+function agregarProducto() {
+    let nombre = prompt("Introduce el nombre del producto:");
+    let precio = prompt("Introduce el precio del producto:");
 
-    if (nombre === null || nombre.trim() === "") {
-        alert("El nombre de la tarea no puede estar vacío");
+    if (nombre === null || nombre.trim() === "" || precio === null || precio.trim() === "") {
+        alert("Nombre y precio no pueden estar vacíos");
         return;
     }
 
-    let tarea = {
+    precio = parseFloat(precio);
+
+    if (isNaN(precio) || precio <= 0) {
+        alert("Precio inválido");
+        return;
+    }
+
+    let producto = {
         nombre: nombre.trim(),
-        completada: false
+        precio: precio,
+        vendido: false
     };
 
-    tareas.push(tarea);
-    alert("Tarea agregada correctamente");
+    productos.push(producto);
+    alert("Producto agregado correctamente");
 }
 
-// función para ver tareas
-function verTareas() {
-    if (tareas.length === 0) {
-        alert("Lista de tareas vacía");
+// función para ver productos
+function verProductos() {
+    if (productos.length === 0) {
+        alert("No hay productos en la tienda");
         return;
     }
 
-    let mensaje = "Lista de tareas:\n";
+    let mensaje = "Lista de productos:\n";
 
-    tareas.forEach((tarea, index) => {
-        mensaje += `${index + 1}.- ${tarea.nombre} [${tarea.completada ? "Completada" : "Pendiente"}]\n`;
+    productos.forEach((producto, index) => {
+        mensaje += `${index + 1}.- ${producto.nombre} - $${producto.precio} [${producto.vendido ? "Vendido" : "Disponible"}]\n`;
     });
 
     alert(mensaje);
 }
 
-// función para marcar tarea como completada
-function marcarTareaCompletada() {
-    if (tareas.length === 0) {
-        alert("No hay tareas para marcar");
+// función para marcar producto como vendido
+function marcarProductoVendido() {
+    if (productos.length === 0) {
+        alert("No hay productos para vender");
         return;
     }
 
-    let numero = prompt("Ingresa el número de la tarea a marcar como completada:");
+    let numero = prompt("Ingresa el número del producto vendido:");
     numero = parseInt(numero);
 
-    if (isNaN(numero) || numero < 1 || numero > tareas.length) {
-        alert("Número de tarea inválido");
+    if (isNaN(numero) || numero < 1 || numero > productos.length) {
+        alert("Número inválido");
         return;
     }
 
-    tareas[numero - 1].completada = true;
+    productos[numero - 1].vendido = true;
 
-    alert(`La tarea "${tareas[numero - 1].nombre}" ha sido marcada como completada`);
+    alert(`El producto "${productos[numero - 1].nombre}" ha sido marcado como vendido`);
 }
 
 // función principal
@@ -78,17 +87,17 @@ function iniciarPrograma() {
 
         switch (opcion) {
             case 1:
-                agregarTarea();
+                agregarProducto();
                 break;
             case 2:
-                verTareas();
+                verProductos();
                 break;
             case 3:
-                marcarTareaCompletada();
+                marcarProductoVendido();
                 break;
             case 4:
                 bandera = false;
-                alert("Saliendo del programa...");
+                alert("Saliendo del sistema de tienda...");
                 break;
             default:
                 alert("Opción no válida");
